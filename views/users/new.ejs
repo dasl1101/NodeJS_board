@@ -1,10 +1,40 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <script>
+    function auth_fn(button_id){
+      var id = button_id;
+      if(id =="auth"){
+        var email = $("#email").val();
+        $.ajax({
+          url: '/mail',
+          dataType: 'json',
+          type: 'POST',
+          data:'email',
+          success: function(data){
+            alert("인증 메일을 전송했습니다.");
+          },
+          error: function(error){
+            alert("인증 메일 전송을 실패했습니다" + error);
+          
+          }
+        });
+  
+      };
+
+    }
+     
+        
+     </script>
+
     <%- include('../partials/head') %>
   </head>
   <body>
     <%- include('../partials/nav') %>
+   
+   
 
     <div class="container mb-3">
 
@@ -37,7 +67,7 @@
             <% if(errors.email){ %>
               <span class="invalid-feedback"><%= errors.email.message %></span>
             <% } %>
-              <button type="button" name="sendMail" class="btn btn-primary">인증메일 보내기</button>
+              <button type="button" name="sendMail" id="auth" onclick="auth_fn(this.id)" class="btn btn-primary">인증메일 보내기</button>
           </div>
         </div>
         <div class="form-group row">
