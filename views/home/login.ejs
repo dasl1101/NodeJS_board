@@ -13,7 +13,7 @@
       <form class="user-form" action="/login" method="post">
 
         <div class="form-group row">
-          <label for="username" class="col-sm-3 col-form-label">Username</label>
+          <label for="username" class="col-sm-3 col-form-label">Id</label>
           <div class="col-sm-9">
             <input type="text" id="username" name="username" value="<%= username %>" class="form-control <%= (errors.username)?'is-invalid':'' %>">
             <% if(errors.username){ %>

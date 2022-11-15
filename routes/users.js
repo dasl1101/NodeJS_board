@@ -3,6 +3,15 @@ var router = express.Router();
 var User = require('../models/User');
 var util = require('../util');
 
+var { sendEmail } = require('auth');
+
+router.post('/sendEmail',(req,res) =>{
+  sendEmail(req.body.email, req.body.auth)
+  return res.status(200).json({
+    success:true
+  })
+});
+
 // New
 router.get('/new', function(req, res){
   var user = req.flash('user')[0] || {};

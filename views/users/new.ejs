@@ -37,8 +37,17 @@
             <% if(errors.email){ %>
               <span class="invalid-feedback"><%= errors.email.message %></span>
             <% } %>
+              <button type="button" name="sendMail" class="btn btn-primary">인증메일 보내기</button>
           </div>
         </div>
+        <div class="form-group row">
+          <label for="authCode" class="col-sm-3 col-form-label">인증번호</label>
+          <div class="col-sm-9">
+          <input type="text" id="authCode" name="authCode" value="<%= user.authCode %>" class="form-control">
+          <button type="button" name="emailButton" class="btn btn-primary">check</button>
+          </div>
+        </div>
+
         <div class="form-group row">
           <label for="password" class="col-sm-3 col-form-label">Password*</label>
           <div class="col-sm-9">

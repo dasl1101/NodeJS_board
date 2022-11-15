@@ -30,6 +30,8 @@ var userSchema = mongoose.Schema({
   toObject:{virtuals:true}
 });
 
+
+
 // virtuals ->DB에 저장되지 않는 값
 userSchema.virtual('passwordConfirmation')
   .get(function(){ return this._passwordConfirmation; })
