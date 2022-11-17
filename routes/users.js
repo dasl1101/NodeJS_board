@@ -2,15 +2,28 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
 var util = require('../util');
+var transport = require('../transport/mail');
 
-var { sendEmail } = require('auth');
+router.get('/new/sendMail', function(req, res, next) {
+  console.log('메일 전송 서버 호출됨');
+  var { email } = req.body.email;
 
-router.post('/sendEmail',(req,res) =>{
-  sendEmail(req.body.email, req.body.auth)
-  return res.status(200).json({
-    success:true
-  })
-});
+  transport.sendMail({
+    from: `고양이 이야기 <ektmf1101@naver.com>`,
+    to: email,
+    subject: '[고양이 이야기] 인증번호가 도착했습니다.',
+    text: '',
+    html: `
+      <div style="text-align: center;">
+        <h3 style="color: #FA5882">아래 인증번호를 입력해 주세요.</h3>
+        <br />
+        <p>{authNum}</p>
+      </div>
+    `})
+    .then(send => res.json(send))
+    .catch(err => next(err))
+})
+
 
 // New
 router.get('/new', function(req, res){
