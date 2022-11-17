@@ -3,11 +3,14 @@ var router = express.Router();
 var User = require('../models/User');
 var util = require('../util');
 var transport = require('../transport/mail');
+var bodyParser = require('body-parser');
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
 
-router.get('/new/sendMail', function(req, res, next) {
+router.post('/new/sendMail', function(req, res, next) {
+ 
+  var email = req.body.data;
   console.log('메일 전송 서버 호출됨');
-  var { email } = req.body.email;
-
   transport.sendMail({
     from: `고양이 이야기 <ektmf1101@naver.com>`,
     to: email,

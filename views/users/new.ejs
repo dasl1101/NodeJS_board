@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <script>
-    $('#mailAuth').click( function() {
-        var email = $("#email").val();
-        $.ajax({
-          url: '/sendMail',
-          dataType: 'json',
-          type: 'GET',
-          data: email,
-          success: function(data){
-            alert("인증 메일을 전송했습니다.");
-          },
-          error: function(err){
-            alert("인증 메일 전송을 실패했습니다" + err);
-          
-          }
-        });
-      });
-        
-     </script>
+    <script type="text/javascript">
+      $(document).ready(function() {  
+        $('#mailAuth').click(function() {
+            var email = $("#email").val();
+            $.ajax({
+              url: '/users/new/sendMail',
+              dataType: 'json',
+              type: 'POST',
+              data: {data:email},
+              success: function(){
+                alert("인증 메일을 전송했습니다.");
+              },
+              error: function(err){
+                alert("인증 메일 전송을 실패했습니다");  
+              
+              }
+            });
+          });
+      });    
+         </script>
 
     <%- include('../partials/head') %>
   </head>
   <body>
     <%- include('../partials/nav') %>
    
-   
+
+  
 
     <div class="container mb-3">
 
