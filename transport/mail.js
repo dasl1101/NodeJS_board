@@ -1,4 +1,6 @@
-const nodemailer = require('nodemailer')
+require('dotenv').config();
+const nodemailer = require('nodemailer');
+
 
 const transport = nodemailer.createTransport({
   service: 'Naver',
@@ -6,8 +8,8 @@ const transport = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: 'ektmf1101@naver.com',
-    pass: '0231-ektmf!',
+    user: process.env.NODEMAILER_USER,
+    pass: process.env.NODEMAILER_PASS,
   },
 })
 
