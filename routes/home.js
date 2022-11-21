@@ -10,8 +10,6 @@ router.get('/about', function(req, res){
   res.render('home/about');
 });
 
-
-
 // Login
 router.get('/login', function (req,res) {
   var username = req.flash('username')[0];
@@ -52,9 +50,11 @@ router.post('/login',
 ));
 
 // Logout
-router.get('/logout', function(req, res) {
-  req.logout();
-  res.redirect('/');
+router.get('/logout', function(req, res, next) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
 });
 
 module.exports = router;

@@ -49,6 +49,10 @@ userSchema.virtual('newPassword')
   .get(function(){ return this._newPassword; })
   .set(function(value){ this._newPassword=value; });
 
+ userSchema.virtual('authCode') 
+  .get(function(){return this.authCode; })
+  .set(function(value){this.authCode=value});
+
 // password validation
 var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
 var passwordRegexErrorMessage = '비밀번호는 최소 8글자의 영어와 숫자를 조합하여 적어주세요.';
@@ -66,6 +70,12 @@ userSchema.path('password').validate(function(v) {
     }
     else if(user.password !== user.passwordConfirmation) {
       user.invalidate('passwordConfirmation', '비밀번호가 일치하지 않습니다.');
+    }
+    if(!user.authCode){
+      user.invalidate('authConfirmation', '인증코드를 입력해 주세요.');
+    }
+    else if(user.authCode !== user.state.createdAuthCode){
+      user.invalidate('authConfirmation', '인증 코드가 일치하지 않습니다.')
     }
   }
 
