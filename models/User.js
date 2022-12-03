@@ -50,8 +50,8 @@ userSchema.virtual('newPassword')
   .set(function(value){ this._newPassword=value; });
 
  userSchema.virtual('authCode') 
-  .get(function(){return this.authCode; })
-  .set(function(value){this.authCode=value});
+  .get(function(){return this._authCode; })
+  .set(function(value){this._authCode=value});
 
 // password validation
 var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;

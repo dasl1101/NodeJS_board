@@ -95,11 +95,11 @@
           <label for="authCode" class="col-sm-3 col-form-label">인증코드*</label>
           <div class="col-sm-9">
             <div class="input-group">
-            <input type="text" id="code" name="authCode" value="" class="form-control <%= (errors.authConfirmation)?'is-invalid':'' %>">
+            <input type="text" id="code" name="authCode" value="" class="form-control <%= (errors.authCode)?'is-invalid':'' %>">
           <span class="input-group-btn"></span>
           <button type="button" name="emailButton" id="authCode" class="btn btn-primary">인증코드 확인</button>
         </span>
-          <% if(errors.authConfirmation){ %>
+          <% if(errors.authCode){ %>
           <span class="invalid-feedback"><%= errors.authCode.message %></span>
           <% } %>
             </div>

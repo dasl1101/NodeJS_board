@@ -1,55 +1,26 @@
-const winston = require('winston');
-const winstonDaily = require('winston-daily-rotate-file');
+var fs = require('fs');
 
-const logDir = 'logs';  // logs 디렉토리 하위에 로그 파일 저장
-const { combine, timestamp, printf } = winston.format;
-
-// Define log format
-const logFormat = printf(info => {
-  return `${info.timestamp} ${info.level}: ${info.message}`;
+var logger = require('tracer').colorConsole({
+  transport: function(data) {
+    console.log(data.output);
+    // logs 폴더에 로그 파일을 생성할 것이므로 폴더를 미리 만들어 놓아야 한다!
+    fs.appendFile('logs/'+getTodayFormat()+'.log', data.rawoutput + '\n', err => {
+      if (err) throw err
+    });
+  }
 });
 
-/*
- * Log Level
- * error: 0, warn: 1, info: 2, http: 3, verbose: 4, debug: 5, silly: 6
- */
-const logger = winston.createLogger({
-  format: combine(
-    timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss',
-    }),
-    logFormat,
-  ),
-  transports: [
-    // info 레벨 로그를 저장할 파일 설정
-    new winstonDaily({
-      level: 'info',
-      datePattern: 'YYYY-MM-DD',
-      dirname: logDir,
-      filename: `%DATE%.log`,
-      maxFiles: 30,  // 30일치 로그 파일 저장
-      zippedArchive: true, 
-    }),
-    // error 레벨 로그를 저장할 파일 설정
-    new winstonDaily({
-      level: 'error',
-      datePattern: 'YYYY-MM-DD',
-      dirname: logDir + '/error',  // error.log 파일은 /logs/error 하위에 저장 
-      filename: `%DATE%.error.log`,
-      maxFiles: 30,
-      zippedArchive: true,
-    }),
-  ],
-});
+function getTodayFormat() {
+  let today = new Date();
 
-// Production 환경이 아닌 경우(dev 등) 
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.combine(
-      winston.format.colorize(),  // 색깔 넣어서 출력
-      winston.format.simple(),  // `${info.level}: ${info.message} JSON.stringify({ ...rest })` 포맷으로 출력
-    )
-  }));
+  let year = today.getFullYear(); // 년도
+  let month = today.getMonth() + 1;  // 월
+  let date = today.getDate();  // 날짜
+  // let day = today.getDay();  // 요일
+
+  let format = year + '-' + (((month+'').length === 1)?'0':'')+month + '-' + (((date+'').length === 1)?'0':'')+date; // ex) 2021-08-24
+
+  return format;
 }
 
-module.exports = { logger };
+module.exports = logger;

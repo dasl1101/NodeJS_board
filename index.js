@@ -1,14 +1,14 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
-const flash = require('connect-flash');
-const session = require('express-session');
-const passport = require('./config/passport');
-const util = require('./util');
-const app = express();
-const path = require('path');
-const logger = require('./config/tracer');
+var express = require('express');
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var flash = require('connect-flash');
+var session = require('express-session');
+var passport = require('./config/passport');
+var util = require('./util');
+var app = express();
+var path = require('path');
+var logger = require('./config/tracer');
 
 // DB setting
 mongoose.connect(process.env.MONGO_DB);
@@ -33,6 +33,12 @@ app.use(session({secret:'MySecret', resave:true, saveUninitialized:true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
+//tracer
+app.use(function(req, res, next) {
+  res.locals.logger = logger;
+  next();
+});
+
 // Custom Middlewares
 app.use(function(req,res,next){
   res.locals.isAuthenticated = req.isAuthenticated();
@@ -48,13 +54,12 @@ app.use('/users', require('./routes/users'));
 app.use('/comments', util.getPostQueryString, require('./routes/comments'));
 app.use('/files', require('./routes/files'));
 app.use('/img', express.static(path.join(__dirname, 'img')));
+
+
+
 // Port setting
 var port = 3001;
 app.listen(port, function(){
   console.log('server on! http://localhost:'+port);
 });
 
-app.use(function(req, res, next) {
-  res.locals.logger = logger;
-  next();
-});
