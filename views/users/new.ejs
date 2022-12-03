@@ -80,21 +80,29 @@
         <div class="form-group row">
           <label for="email" class="col-sm-3 col-form-label">Email</label>
           <div class="col-sm-9">
+            <div class="input-group">
             <input type="text" id="email" name="email" value="<%= user.email %>" class="form-control <%= (errors.email)?'is-invalid':'' %>">
             <% if(errors.email){ %>
               <span class="invalid-feedback"><%= errors.email.message %></span>
             <% } %>
+            <span class="input-group-btn">
               <button type="button" name="mailAuth" id="mailAuth" class="btn btn-primary">인증메일 보내기</button>
+              </span>
+            </div>
           </div>
         </div>
         <div class="form-group row">
           <label for="authCode" class="col-sm-3 col-form-label">인증코드*</label>
           <div class="col-sm-9">
-          <input type="text" id="code" name="authCode" value="<%= user.authCode %>" class="form-control <%= (errors.authConfirmation)?'is-invalid':'' %>">
-          <button type="button" name="emailButton" id="authCode" class="btn btn-primary">check</button>
+            <div class="input-group">
+            <input type="text" id="code" name="authCode" value="" class="form-control <%= (errors.authConfirmation)?'is-invalid':'' %>">
+          <span class="input-group-btn"></span>
+          <button type="button" name="emailButton" id="authCode" class="btn btn-primary">인증코드 확인</button>
+        </span>
           <% if(errors.authConfirmation){ %>
           <span class="invalid-feedback"><%= errors.authCode.message %></span>
           <% } %>
+            </div>
           </div>
         </div>
 
