@@ -12,6 +12,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.get('/new', function (req, res) {
   var user = req.flash('user')[0] || {};
   var errors = req.flash('errors')[0] || {};
+  console.log('user.authCode: '+user.authCode);
   res.render('users/new', { user: user, errors: errors });
   
 });
@@ -72,8 +73,8 @@ router.post('/new/authCode', function (req, res) {
   var authCode = req.body.data;
   console.log('입력한authCode = ' + authCode);
   console.log('인증코드 = ' + state.createdAuthCode);
-  if (state.createdAuthCode == authCode) {
-    res.send("일치");
+  if (state.createdAuthCode===authCode) {
+    res.send({data:authCode});
   }
 });
 

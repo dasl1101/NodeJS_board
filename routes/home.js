@@ -10,6 +10,11 @@ router.get('/about', function(req, res){
   res.render('home/about');
 });
 
+//summernote
+router.get('/summernote', function(req, res){
+  res.render('home/summernote');
+});
+
 // Login
 router.get('/login', function (req,res) {
   var username = req.flash('username')[0];

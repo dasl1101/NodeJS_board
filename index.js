@@ -10,6 +10,8 @@ var app = express();
 var path = require('path');
 var logger = require('./config/tracer');
 
+
+
 // DB setting
 mongoose.connect(process.env.MONGO_DB);
 var db = mongoose.connection;
@@ -54,7 +56,6 @@ app.use('/users', require('./routes/users'));
 app.use('/comments', util.getPostQueryString, require('./routes/comments'));
 app.use('/files', require('./routes/files'));
 app.use('/img', express.static(path.join(__dirname, 'img')));
-
 
 
 // Port setting
