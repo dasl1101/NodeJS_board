@@ -1,8 +1,32 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <%- include('../partials/head') %>
-  </head>
+    <meta charset="UTF-8">
+      <%- include('../partials/head') %>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+      <!-- CDN 한글화 -->
+      <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+    </head>
+    <script>
+      $(document).ready(function() {
+        console.log($.summernote.options);
+
+            // 실행시 언어 설정을 한글로 설정 
+            $.summernote.options.lang = 'ko-KR';
+            $.summernote.options.airMode = false;
+
+        //other options
+    
+      }).on("summernote.enter", function(we, e) {
+        $(this).summernote("pasteHTML", "<br><br>");
+        e.preventDefault();
+      }); //Enter 후에 <br><br> 제거 하는 코드
+
+        var a = $('#summernote');
+
+    </script>
   <body>
     <%- include('../partials/nav') %>
 
@@ -26,7 +50,11 @@
                 <small>📁 Attachment: <a href="/files/<%= post.attachment.serverFileName %>/<%= post.attachment.originalFileName %>"><%= post.attachment.originalFileName %></a> (<%= util.bytesToSize(post.attachment.size) %>)</small>
               </div>
             <% } %>
-            <div class="post-body p-2" data-search-highlight="body"><%= post.body %></div>
+            <div class="post-body p-2" data-search-highlight="body">
+              <div id="summernote" value="<%= post.body %>">
+                <p><%= post.body %></p>
+              </div>
+            </div>
           </div>
 
           <div class="col-md-5 col-lg-4 col-xl-3 order-sm-1 order-md-2">
@@ -48,9 +76,9 @@
       <div class="mt-3">
         <a class="btn btn-primary" href="/posts<%= getPostQueryString() %>">Back</a>
         <% if(isAuthenticated && post.author && currentUser.id == post.author.id){ %>
-          <a class="btn btn-primary" href="/posts/<%= post._id %>/edit<%= getPostQueryString() %>">Edit</a>
+          <a class="btn btn-primary" href="/posts/<%= post._id %>/edit<%= getPostQueryString() %>" id="edit" onclick="edit()">Edit</a>
           <form action="/posts/<%= post._id %>?_method=delete<%= getPostQueryString(true) %>" method="post" class="d-inline">
-            <a class="btn btn-primary" href="javascript:void(0)" onclick="confirm('Do you want to delete this?')?this.parentElement.submit():null;">Delete</a>
+            <a class="btn btn-primary" href="javascript:void(0)" onclick="confirm('정말 삭제하시겠습니까?')?this.parentElement.submit():null;">Delete</a>
           </form>
         <% } %>
       </div>
@@ -81,5 +109,6 @@
       </div>
 
     </div>
+
   </body>
 </html>

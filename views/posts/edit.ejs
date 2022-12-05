@@ -2,6 +2,33 @@
 <html>
   <head>
     <%- include('../partials/head') %>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <!-- CDN 한글화 -->
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+    <script>
+      $(document).ready(function() {
+          $('#summernote').summernote({
+            toolbar: [
+           // [groupName, [list of button]]
+           ['fontname', ['fontname']],
+           ['fontsize', ['fontsize']],
+           ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+           ['color', ['forecolor','color']],
+           ['table', ['table']],
+           ['para', ['ul', 'ol', 'paragraph']],
+           ['height', ['height']],
+           ['insert',['picture','link','video']],
+           ['view', ['fullscreen', 'help']]
+         ],
+       fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+       fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+          });
+          // Summernote에 글 내용 추가하는 코드
+          $("#summernote").summernote('code',  post.body);
+      });
+    </script>
   </head>
   <body>
     <%- include('../partials/nav') %>
@@ -45,7 +72,7 @@
 
         <div class="form-group">
           <label for="body">Body</label>
-          <textarea id="body" name="body" rows="5" class="form-control <%= (errors.body)?'is-invalid':'' %>"><%= post.body %></textarea>
+          <textarea id="summernote" name="body" rows="5" class="form-control <%= (errors.body)?'is-invalid':'' %>"><%= post.body %></textarea>
           <% if(errors.body){ %>
             <span class="invalid-feedback"><%= errors.body.message %></span>
           <% } %>
@@ -61,9 +88,7 @@
           <a class="btn btn-primary" href="/posts/<%= post._id %><%= getPostQueryString() %>">Back</a>
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
-
       </form>
-
     </div>
   </body>
 </html>
