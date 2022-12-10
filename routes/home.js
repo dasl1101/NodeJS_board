@@ -28,11 +28,11 @@ router.post('/login',
 
     if(!req.body.username){
       isValid = false;
-      errors.username = 'Username is required!';
+      errors.username = '이름은 필수항목입니다.';
     }
     if(!req.body.password){
       isValid = false;
-      errors.password = 'Password is required!';
+      errors.password = '비밀번호는 필수항목입니다.';
     }
 
     if(isValid){
