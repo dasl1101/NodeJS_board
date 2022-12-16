@@ -4,8 +4,15 @@ var passport = require('../config/passport');
 
 // Home
 router.get('/', function(req, res){
-  res.render('home/welcome');
-});
+  var Counter = require('../models/Counter');
+  var vistorCounter = null;
+  Counter.findOne({name:'vistors'}, function (err,counter) {
+    if(!err) vistorCounter = counter;
+  });
+  res.render('home/welcome', {counter:vistorCounter});
+  console.log("counter: "+ vistorCounter);
+  });
+
 router.get('/about', function(req, res){
   res.render('home/about');
 });

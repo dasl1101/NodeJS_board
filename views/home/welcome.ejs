@@ -7,10 +7,22 @@
     <%- include('../partials/nav') %>
 
     <div class="container mb-3">
+      <br>
+      <br>
       <h1>고양이 이야기</h1>
       <P>고양이 이야기에서 놀다가세요^^</p>
-    </div>
+        <br>
+        <br>
 
+  
+
+    <div class="counter">
+      <% if(counter){ %>
+        Total <%= counter('totalCount') %> visitors<br>
+        (today: <%= counter('totalCount') %>)
+      <% }%>
     </div>
+  </div>
+
   </body>
 </html>
